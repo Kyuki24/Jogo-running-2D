@@ -1,0 +1,67 @@
+from PIL import Image, ImageDraw
+
+def create_cloud_pixel_art(width, height, pixel_size, color):
+    """
+    Cria uma imagem de nuvem em pixel art.
+
+    Args:
+        width (int): Largura da imagem em pixels.
+        height (int): Altura da imagem em pixels.
+        pixel_size (int): Tamanho de cada pixel na imagem.
+        color (tuple): Cor da nuvem no formato (R, G, B).
+
+    Returns:
+        PIL.Image.Image: Imagem da nuvem em pixel art.
+    """
+    # Cria uma nova imagem com fundo transparente
+    image = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(image)
+
+    # Define as coordenadas iniciais da nuvem
+    x = width // 4
+    y = height // 4
+
+    # Define as dimensões da nuvem
+    cloud_width = width // 2
+    cloud_height = height // 2
+
+    # Desenha a nuvem usando círculos e quadrados
+    draw.ellipse((x, y, x + cloud_width // 2, y + cloud_height // 2), fill=color)
+    draw.ellipse((x + cloud_width // 3, y - cloud_height // 4, x + cloud_width // 3 + cloud_width // 2, y - cloud_height // 4 + cloud_height // 2), fill=color)
+    draw.ellipse((x + cloud_width // 2, y + cloud_height // 4, x + cloud_width, y + cloud_height // 4 + cloud_height // 2), fill=color)
+    draw.rectangle((x + cloud_width // 4, y + cloud_height // 2, x + cloud_width // 4 + cloud_width // 2, y + cloud_height), fill=color)
+
+    # Retorna a imagem
+    return image
+
+
+def resize_image(image, new_size):
+    """
+    Redimensiona uma imagem para um novo tamanho.
+
+    Args:
+        image (PIL.Image.Image): A imagem a ser redimensionada.
+        new_size (tuple): O novo tamanho da imagem (largura, altura).
+
+    Returns:
+        PIL.Image.Image: A imagem redimensionada.
+    """
+    return image.resize(new_size, Image.NEAREST)
+
+# Define os parâmetros da nuvem
+image_width = 100
+image_height = 60
+pixel_size = 2
+cloud_color = (200, 200, 200)  # Cinza claro
+
+# Cria a nuvem em pixel art
+cloud_image = create_cloud_pixel_art(image_width, image_height, pixel_size, cloud_color)
+
+# Redimensiona a imagem (opcional)
+resized_image = resize_image(cloud_image, (image_width * 5, image_height * 5))
+
+# Salva a imagem
+resized_image.save("pixel_art_cloud.png")
+
+# Exibe a imagem (opcional)
+resized_image.show()
